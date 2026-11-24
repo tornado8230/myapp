@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Журнал задач</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/browser@0.85.1/build/stlite.css">
+</head>
+<body>
+  <div id="root" aria-label="Журнал задач"></div>
+  <p id="startup-message" role="status">Загружаем журнал задач…</p>
+  <script type="module">
+    const message = document.getElementById("startup-message");
+    try {
+      const { mount } = await import("https://cdn.jsdelivr.net/npm/@stlite/browser@0.85.1/build/stlite.js");
+      mount({
+        entrypoint: "app.py",
+        files: { "app.py": { url: new URL("./app.py", window.location.href).href } },
+        idbfsMountpoints: ["/task_journal"],
+        streamlitConfig: {
+          "client.toolbarMode": "viewer",
+          "theme.primaryColor": "#315DCC"
+        }
+      }, document.getElementById("root"));
+      message.remove();
+    } catch (error) {
+      message.textContent = "Журнал не загрузился. Проверьте подключение и обновите страницу.";
+      console.error(error);
+    }
+  </script>
+</body>
+</html>
