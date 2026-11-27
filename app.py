@@ -35,13 +35,29 @@ def show_add_form(tasks):
       "due":due.isoformat() if due else None,
       "completed_on": None,
     }
+    save_tasks([*tasks,task])
+    st.rerun()
+
+def show_tasks_tab():
+  tasks=load_tasks()
+  show_add_form(tasks)
+  st.subheader("Список задачь")
+  if not tasks:
+    st.caption("Добавте задачу")
+    return 
+  for task in tasks:
+    st.text(f"{task["title"]} | {task["category"]} | {task["due"] or "без срока"})
+  
  
 st.set_page_config(page_title="журнал задач",page_icon="📋",layout="centered")
 st.title("журнал задач")
-st.caption("здесь будут задачи")
+#st.caption("здесь будут задачи")
 
 tasks_tab,=st.tabs(["задачи"])
 with tasks_tab:
-  st.write("скоро cписок задач")
-  if st.button("нажми"):
-    st.write("=)")
+  #st.write("скоро cписок задач")
+  #if st.button("нажми"):
+    #st.write("=)")
+
+  show_tasks_tab()
+  
