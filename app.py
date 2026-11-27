@@ -2,6 +2,7 @@ import streamlit as st
 import json 
 from pathlib import Path
 from uuid import uuid4
+from datetime import date
 
 data_file=Path.home() / ".task_journal" / "tasks.json"
 categories=["Личное","Домашнее","Дз по репетиторам"]
@@ -15,6 +16,17 @@ def load_tasks():
 def save_tasks(tasks):
   data_file.parent.mkdir(parents=True,exist_ok=True)
   data_file.write_text(json.dumps(tasks,ensure_ascii=False,indent=2),encoding="utf-8")
+
+def save_and_refresh(tasks):
+  save_tasks(tasks)
+  st.rerun()
+
+def task_status(task,today):
+  if task["completed_on"]:
+    return "выполнено"
+  if task["due"] and task["due"]<today.isofomat():
+    return "просрочено"
+  return "в процесе"
 
 def show_add_form(tasks):
   st.subheader("Новая задача")
