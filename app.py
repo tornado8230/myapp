@@ -23,7 +23,7 @@ def show_add_form(tasks):
     left,right=st.columns(2)
     category=left.selectbox("Категоря",categories)
     due=right.date_input("Срок",value=None,format="DD.MM.YYYY")
-    submitted=st.form_submit_button("Добавить задачу"),type="primary")
+    submitted=st.form_submit_button("Добавить задачу",type="primary")
   if submitted:
     if not title.strip():
       st.warning("Введите название")
@@ -46,7 +46,7 @@ def show_tasks_tab():
     st.caption("Добавте задачу")
     return 
   for task in tasks:
-    st.text(f"{task["title"]} | {task["category"]} | {task["due"] or "без срока"})
+    st.text(f"{task["title"]} | {task["category"]} | {task["due"] or "без срока"}")
   
  
 st.set_page_config(page_title="журнал задач",page_icon="📋",layout="centered")
